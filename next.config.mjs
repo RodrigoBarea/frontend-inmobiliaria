@@ -5,7 +5,11 @@ const nextConfig = {
       {
         protocol: "http",
         hostname: "localhost",
-        port: "1337", // este es el puerto de Strapi
+        port: "1337",
+      },
+      {
+        protocol: "https",
+        hostname: "backend-inmobiliaria-hcml.onrender.com",
       },
     ],
   },
