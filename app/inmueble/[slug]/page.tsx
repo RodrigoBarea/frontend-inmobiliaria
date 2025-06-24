@@ -6,7 +6,9 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
-import { BedDouble, Bath, Ruler, CarFront, Phone, Mail, Briefcase, MessageCircle, Camera } from 'lucide-react';
+import {
+  BedDouble, Bath, Ruler, CarFront, Phone, Mail, Briefcase, MessageCircle, Camera
+} from 'lucide-react';
 
 const MapaDetalle = dynamic(() => import('@/components/MapaDetalle'), { ssr: false });
 
@@ -62,7 +64,15 @@ export default function InmueblePage({ params }: { params: { slug: string } }) {
     agente
   } = inmueble.attributes;
 
-  const imageList: string[] = imagenes.data.map((img: any) => `${process.env.NEXT_PUBLIC_BACKEND_URL}${img.attributes.formats?.large?.url || img.attributes.url}`);
+  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const imageList: string[] = imagenes.data
+    .map((img: any) => {
+      const formats = img.attributes?.formats;
+      const rawUrl = formats?.large?.url || formats?.medium?.url || img.attributes?.url;
+      return rawUrl ? `${baseUrl}${rawUrl}` : null;
+    })
+    .filter((url: string | null): url is string => !!url);
+
   const lightboxSlides = imageList.map((url) => ({ src: url }));
   const agenteInfo = agente?.data?.attributes;
   const fotoAgente = agenteInfo?.fotoPrincipal?.data?.attributes?.url;
@@ -157,3 +167,4 @@ export default function InmueblePage({ params }: { params: { slug: string } }) {
     </div>
   );
 }
+
