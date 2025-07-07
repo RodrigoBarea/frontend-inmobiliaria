@@ -3,41 +3,12 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { Inmueble } from '@/types/inmueble';
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
 
-interface InmuebleMarker {
-  id: number;
-  attributes: {
-    precio: number;
-    inmuebleName: string;
-    Direccion: string;
-    ciudad: string;
-    slug: string;
-    imagenes?: {
-      data: {
-        attributes: {
-          url: string;
-          formats?: {
-            large?: {
-              url: string;
-            };
-          };
-        };
-      }[];
-    };
-    dormitorios?: number;
-    banos?: number;
-    terreno?: number;
-    estacionamientos?: number;
-    ubicacion: {
-      center: [number, number];
-    };
-  };
-}
-
 interface Props {
-  inmuebles: InmuebleMarker[];
+  inmuebles: Inmueble[];
   ciudadSeleccionada: string | null;
   darkMode?: boolean;
 }
@@ -73,10 +44,8 @@ export default function MapaResultados({ inmuebles, ciudadSeleccionada, darkMode
     });
 
     return () => {
-      if (map.current) {
-        map.current.remove();
-        map.current = null;
-      }
+      map.current?.remove();
+      map.current = null;
     };
   }, [darkMode]);
 
@@ -85,10 +54,8 @@ export default function MapaResultados({ inmuebles, ciudadSeleccionada, darkMode
 
     const renderMarkers = () => {
       setLoading(true);
-
-      // Clear existing markers
-      markers.current.forEach(marker => marker.remove());
-      popups.current.forEach(popup => popup.remove());
+      markers.current.forEach(m => m.remove());
+      popups.current.forEach(p => p.remove());
       markers.current = [];
       popups.current = [];
 
@@ -97,33 +64,22 @@ export default function MapaResultados({ inmuebles, ciudadSeleccionada, darkMode
         return;
       }
 
-      // Fly to selected city or fit bounds
       if (ciudadSeleccionada && CITY_COORDINATES[ciudadSeleccionada]) {
         const { center, zoom } = CITY_COORDINATES[ciudadSeleccionada];
-        map.current?.flyTo({
-          center,
-          zoom,
-          duration: 1000
-        });
+        map.current?.flyTo({ center, zoom, duration: 1000 });
       } else {
         const bounds = new mapboxgl.LngLatBounds();
-        inmuebles.forEach(inmueble => {
-          bounds.extend(inmueble.attributes.ubicacion.center);
-        });
+        inmuebles.forEach(i => bounds.extend(i.attributes.ubicacion.center));
         map.current?.fitBounds(bounds, { padding: 50 });
       }
 
-      // Create new markers
       inmuebles.forEach(inmueble => {
         const { ubicacion, precio, inmuebleName, Direccion, ciudad, slug, imagenes } = inmueble.attributes;
         const [lng, lat] = ubicacion.center;
 
-        // Create marker element
         const el = document.createElement('div');
         el.className = 'marker';
-        el.textContent = precio >= 1000 
-          ? `$${(precio / 1000).toFixed(0)}K` 
-          : `$${precio} USD`;
+        el.textContent = precio >= 1000 ? `$${(precio / 1000).toFixed(0)}K` : `$${precio} USD`;
 
         Object.assign(el.style, {
           padding: '4px 8px',
@@ -137,16 +93,11 @@ export default function MapaResultados({ inmuebles, ciudadSeleccionada, darkMode
           whiteSpace: 'nowrap',
         });
 
-        // Create popup content
-        const imgUrl = imagenes?.data[0]?.attributes.formats?.large?.url || 
-                       imagenes?.data[0]?.attributes.url || '';
+        const imgUrl = imagenes?.data?.[0]?.attributes.formats?.large?.url || 
+                       imagenes?.data?.[0]?.attributes.url || '';
         const fullImgUrl = imgUrl ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${imgUrl}` : '';
 
-        const popup = new mapboxgl.Popup({
-          offset: 25,
-          closeButton: false,
-          closeOnClick: false,
-        }).setHTML(`
+        const popup = new mapboxgl.Popup({ offset: 25, closeButton: false, closeOnClick: false }).setHTML(`
           <div class="popup-container">
             ${fullImgUrl ? `<img src="${fullImgUrl}" alt="${inmuebleName}" class="popup-image" />` : ''}
             <div class="popup-body">
@@ -163,23 +114,12 @@ export default function MapaResultados({ inmuebles, ciudadSeleccionada, darkMode
           </div>
         `);
 
-        const marker = new mapboxgl.Marker(el)
-          .setLngLat([lng, lat])
-          .addTo(map.current!);
-
-        // Store references
+        const marker = new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map.current!);
         markers.current.push(marker);
         popups.current.push(popup);
 
-        // Add event listeners
-        el.addEventListener('mouseenter', () => {
-          popup.setLngLat([lng, lat]).addTo(map.current!);
-        });
-
-        el.addEventListener('mouseleave', () => {
-          popup.remove();
-        });
-
+        el.addEventListener('mouseenter', () => popup.setLngLat([lng, lat]).addTo(map.current!));
+        el.addEventListener('mouseleave', () => popup.remove());
         el.addEventListener('click', () => {
           window.location.href = `/inmueble/${slug}`;
         });
