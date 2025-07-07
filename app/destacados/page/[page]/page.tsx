@@ -27,6 +27,7 @@ interface Inmueble {
     terreno: number;
     estacionamientos: number;
     isFeatured: boolean;
+    tipo: string; // Añadido el campo tipo
     imagenes: {
       data: {
         attributes: {
@@ -125,6 +126,7 @@ const PaginaDestacados = () => {
                 estacionamientos,
                 imagenes,
                 categoria,
+                tipo // Obtenemos el tipo del inmueble
               } = attributes;
 
               const imagenUrl =
@@ -154,9 +156,17 @@ const PaginaDestacados = () => {
                   </div>
 
                   <div className="p-4 space-y-2">
-                    <h3 className="text-[#001E6C] font-bold text-base">
-                      ${precio.toLocaleString()}
-                    </h3>
+                    <div className="flex justify-between items-start">
+                      <h3 className="text-[#001E6C] font-bold text-base">
+                        ${precio.toLocaleString()}
+                      </h3>
+                      {/* Mostramos el tipo de inmueble */}
+                      {tipo && (
+                        <span className="bg-[#1c39bb] text-white text-xs font-bold px-2 py-1 rounded-md">
+                          {tipo}
+                        </span>
+                      )}
+                    </div>
                     <p className="text-sm font-semibold text-gray-800 line-clamp-2">
                       {Direccion}
                     </p>

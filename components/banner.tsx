@@ -12,7 +12,7 @@ const BannerPrincipal = () => {
     <section className="relative w-full h-[700px] overflow-hidden">
       {/* Imagen de fondo */}
       <Image
-        src="/house-banner.png"
+        src="/banner-principal.jpg"
         alt="Fachada de inmueble moderno en Tarija al atardecer"
         fill
         style={{ objectFit: "cover", objectPosition: "center" }}
@@ -30,7 +30,7 @@ const BannerPrincipal = () => {
           transition={{ duration: 0.8 }}
           className="text-4xl sm:text-5xl md:text-6xl font-extrabold max-w-3xl leading-relaxed drop-shadow"
         >
-          Tenemos el inmueble ideal para ti en Tarija.
+          Tenemos el inmueble ideal para ti en Tarija y en Bolivia.
         </motion.h1>
 
         {/* Botón estilo buscador con menor separación */}

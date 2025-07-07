@@ -19,6 +19,7 @@ const MenuList = () => {
     { href: "/alquiler/page/1", label: "Alquila" },
     { href: "/anticretico/page/1", label: "En Anticrético" },
     { href: "/vender", label: "Vende" },
+      { href: "/alquileres", label: "Gestión de Alquileres" },
     { href: "/sobre-nosotros", label: "Nosotros" },
     { href: "/blog/page/1", label: "Blog" },
   ];
