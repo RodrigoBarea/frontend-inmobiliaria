@@ -7,8 +7,8 @@ export interface Inmueble {
     ciudad: string;
     slug: string;
     tipo: string;
-    dormitorios?: number;
-    banos?: number;
+    dormitorios: number;  // Cambiado de opcional a requerido
+    banos: number;        // Cambiado de opcional a requerido
     terreno?: number;
     estacionamientos?: number;
     ubicacion: {
@@ -21,7 +21,7 @@ export interface Inmueble {
         };
       };
     };
-    imagenes?: {
+    imagenes: {  // Cambiado de opcional a requerido
       data: {
         attributes: {
           url: string;
