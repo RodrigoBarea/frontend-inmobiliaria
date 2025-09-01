@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FileText, Home, Search, Handshake } from 'lucide-react';
 
@@ -29,6 +28,10 @@ const steps = [
 ];
 
 const GuiaComprador = () => {
+  // Mensaje con emojis (codificado para URL)
+  const rawMsg = 'Hola, necesito asesoramiento inmobiliario.';
+  const waUrl = `https://wa.me/59177873534?text=${encodeURIComponent(rawMsg)}`;
+
   return (
     <>
       {/* HERO con gradiente + curvatura SVG */}
@@ -96,13 +99,14 @@ const GuiaComprador = () => {
             <p className="text-gray-700 mb-6">
               Agenda una llamada con uno de nuestros expertos y recibe una asesoría gratuita personalizada.
             </p>
-            <Link
-              href="https://wa.me/59171122333"
+            <a
+              href={waUrl}
               target="_blank"
+              rel="noopener noreferrer"
               className="inline-block bg-[#1c39bb] text-white px-6 py-3 rounded-full font-semibold transition hover:scale-105 hover:bg-[#001e6c]"
             >
               Contactar vía WhatsApp →
-            </Link>
+            </a>
           </div>
         </div>
       </section>

@@ -19,14 +19,20 @@ const MobileMenu = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isOpen]);
 
+  // Ítems iguales a los del MenuList
   const navItems = [
-    { href: "/", label: "Compra" },
-    { href: "/", label: "Alquila" },
-    { href: "/", label: "En Anticrético" },
-    { href: "/", label: "Vende" },
-    { href: "/", label: "Nosotros" },
-    { href: "/", label: "Blog" },
+    { href: "/compra/page/1", label: "Compra" },
+    { href: "/alquiler/page/1", label: "Alquila" },
+    { href: "/anticretico/page/1", label: "En Anticrético" },
+    { href: "/vender", label: "Vende" },
+    { href: "/alquileres", label: "Gestión de Alquileres" },
+    { href: "/sobre-nosotros", label: "Nosotros" },
+    { href: "/blog/page/1", label: "Blog" },
   ];
+
+  // Mensaje con emojis (codificado para URL)
+  const rawMsg = "Hola, necesito asesoramiento inmobiliario.";
+  const waUrl = `https://wa.me/59177873534?text=${encodeURIComponent(rawMsg)}`;
 
   return (
     <div className="sm:hidden">
@@ -91,16 +97,17 @@ const MobileMenu = () => {
                 </motion.div>
               ))}
 
+              {/* CTA WhatsApp con mensaje predeterminado */}
               <div className="mt-6 border-t pt-4 border-gray-200">
                 <p className="text-sm text-gray-500">¿Necesitas ayuda?</p>
                 <a
-                  href="https://wa.me/59171122333"
+                  href={waUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-[#1c39bb] font-semibold text-base mt-2 hover:text-[#25D366] transition"
                 >
                   <FaWhatsapp className="text-xl" />
-                  +591 711 22 333
+                  +591 77873534
                 </a>
               </div>
             </div>

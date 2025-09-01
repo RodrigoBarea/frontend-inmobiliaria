@@ -30,7 +30,7 @@ const BannerPrincipal = () => {
           transition={{ duration: 0.8 }}
           className="text-4xl sm:text-5xl md:text-6xl font-extrabold max-w-3xl leading-relaxed drop-shadow"
         >
-          Tenemos el inmueble ideal para ti en Tarija y en Bolivia.
+          Tenemos el inmueble ideal para ti.
         </motion.h1>
 
         {/* Botón estilo buscador con menor separación */}
@@ -50,7 +50,7 @@ const BannerPrincipal = () => {
           }
         >
           <span className="text-gray-400 text-sm sm:text-base">
-            Busca propiedades, zonas, agentes…
+            Busca propiedades en Tarija y Bolivia…
           </span>
           <div className="flex items-center justify-center w-10 h-10 bg-[#001E6C] rounded-full">
             <Search className="text-white w-5 h-5" />

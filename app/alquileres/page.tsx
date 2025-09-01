@@ -2,7 +2,6 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
   Search,
@@ -33,10 +32,12 @@ export default function GestionAlquilerPage() {
     },
   ];
 
+  // WhatsApp: número + mensaje predeterminado (codificado)
+  const rawMsg = 'Hola, necesito ayuda con la gestión de alquileres.';
+  const waUrl = `https://wa.me/59177873534?text=${encodeURIComponent(rawMsg)}`;
+
   return (
     <main className="bg-white text-[#001E6C] overflow-x-hidden">
-
-
       {/* HERO (con más padding-bottom) */}
       <section
         className="relative h-[60vh] md:h-[55vh] w-full
@@ -110,16 +111,17 @@ export default function GestionAlquilerPage() {
               proceso de gestión de tu alquiler: selección, cobranza y
               mantenimiento.
             </p>
-            <Link
-              href="https://wa.me/591XXXXXXXX"
+            <a
+              href={waUrl}
               target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center bg-[#25D366] hover:bg-[#1DA955]
                          text-white font-semibold py-3 px-6 rounded-full
                          text-lg shadow-md transition"
             >
               <MessageCircleMore className="w-5 h-5 mr-2" />
               Contactar por WhatsApp
-            </Link>
+            </a>
           </motion.div>
         </div>
       </section>

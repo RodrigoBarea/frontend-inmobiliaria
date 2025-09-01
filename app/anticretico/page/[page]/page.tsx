@@ -26,7 +26,7 @@ interface Inmueble {
     banos: number;
     terreno: number;
     estacionamientos: number;
-    tipo: string; // Añadido el campo tipo
+    tipo: string;
     imagenes: {
       data: {
         attributes: {
@@ -35,7 +35,7 @@ interface Inmueble {
             large?: { url: string };
           };
         };
-      }[]; 
+      }[];
     };
     categoria?: {
       data?: {
@@ -83,7 +83,7 @@ const AnticreticoPage = () => {
       viewport={{ once: true, amount: 0.3 }}
       className="relative z-10 -mt-14"
     >
-      {/* Banner con gradiente */}
+      {/* Banner */}
       <div className="relative h-[60vh] w-full bg-gradient-to-br from-[#001E6C] via-[#0038a2] to-[#0057b7] flex items-center justify-center text-center px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -99,7 +99,7 @@ const AnticreticoPage = () => {
         </motion.div>
       </div>
 
-      {/* Contenido con curvatura superior */}
+      {/* Contenido */}
       <div className="relative bg-white rounded-t-[2rem] shadow-xl -mt-12 z-10">
         <div className="max-w-7xl mx-auto px-6 pt-20 pb-16 space-y-12">
           <div className="text-left">
@@ -109,161 +109,166 @@ const AnticreticoPage = () => {
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {inmuebles.map(({ id, attributes }) => {
-              const {
-                inmuebleName,
-                slug,
-                precio,
-                Direccion,
-                dormitorios,
-                banos,
-                terreno,
-                estacionamientos,
-                imagenes,
-                categoria,
-                tipo // Obtenemos el tipo del inmueble
-              } = attributes;
+            {inmuebles.length === 0 ? (
+              <div className="col-span-full bg-gray-50 border rounded-xl p-10 text-center text-gray-600">
+                No hay inmuebles disponibles en anticretico.
+              </div>
+            ) : (
+              inmuebles.map(({ id, attributes }) => {
+                const {
+                  inmuebleName,
+                  slug,
+                  precio,
+                  Direccion,
+                  dormitorios,
+                  banos,
+                  terreno,
+                  estacionamientos,
+                  imagenes,
+                  categoria,
+                  tipo,
+                } = attributes;
 
-              const imagenUrl =
-                imagenes?.data?.[0]?.attributes?.formats?.large?.url ||
-                imagenes?.data?.[0]?.attributes?.url || '';
+                const imagenUrl =
+                  imagenes?.data?.[0]?.attributes?.formats?.large?.url ||
+                  imagenes?.data?.[0]?.attributes?.url ||
+                  '';
 
-              const nombreCategoria =
-                categoria?.data?.attributes?.nombreCategoria || 'ANTICRETICO';
+                const nombreCategoria =
+                  categoria?.data?.attributes?.nombreCategoria || 'ANTICRETICO';
 
-              return (
-                <motion.div
-                  key={id}
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white border rounded-xl shadow hover:shadow-xl overflow-hidden transition"
-                >
-                  <div className="relative h-[220px] w-full">
-                    <Image
-                      src={`${baseUrl}${imagenUrl}`}
-                      alt={inmuebleName}
-                      fill
-                      className="object-cover"
-                    />
-                    <span className="absolute top-3 left-3 bg-white text-[#001E6C] text-xs font-bold px-3 py-1 rounded-full shadow">
-                      {nombreCategoria.toUpperCase()}
-                    </span>
-                  </div>
-
-                  <div className="p-4 space-y-2">
-                    <div className="flex justify-between items-start">
-                      <h3 className="text-[#001E6C] font-bold text-base">
-                        ${precio.toLocaleString()}
-                      </h3>
-                      {/* Mostramos el tipo de inmueble */}
-                      {tipo && (
-                        <span className="bg-[#1c39bb] text-white text-xs font-bold px-2 py-1 rounded-md">
-                          {tipo}
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-sm font-semibold text-gray-800 line-clamp-2">
-                      {Direccion}
-                    </p>
-
-                    <div className="flex flex-wrap gap-x-4 text-xs font-semibold text-gray-600 mt-2">
-                      {dormitorios > 0 && (
-                        <div className="flex items-center gap-1">
-                          <BedDouble className="w-4 h-4" /> {dormitorios} dorm.
-                        </div>
-                      )}
-                      {banos > 0 && (
-                        <div className="flex items-center gap-1">
-                          <Bath className="w-4 h-4" /> {banos} baños
-                        </div>
-                      )}
-                      {terreno > 0 && (
-                        <div className="flex items-center gap-1">
-                          <Ruler className="w-4 h-4" /> {terreno} m²
-                        </div>
-                      )}
-                      {estacionamientos > 0 && (
-                        <div className="flex items-center gap-1">
-                          <CarFront className="w-4 h-4" /> {estacionamientos} estac.
-                        </div>
-                      )}
-                    </div>
-
-                    <motion.div
-                      whileHover="hover"
-                      initial="rest"
-                      animate="rest"
-                      className="relative w-fit mt-2"
-                    >
-                      <Link
-                        href={`/inmueble/${slug}`}
-                        className="text-sm text-[#1c39bb] font-semibold tracking-wide px-1 py-1"
-                      >
-                        Ver detalles →
-                      </Link>
-                      <motion.span
-                        variants={{
-                          rest: { width: 0 },
-                          hover: { width: '100%' },
-                        }}
-                        transition={{ duration: 0.3 }}
-                        className="absolute left-0 bottom-0 h-[2px] bg-[#1c39bb]"
+                return (
+                  <motion.div
+                    key={id}
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
+                    className="bg-white border rounded-xl shadow hover:shadow-xl overflow-hidden transition"
+                  >
+                    <div className="relative h-[220px] w-full">
+                      <Image
+                        src={`${baseUrl}${imagenUrl}`}
+                        alt={inmuebleName}
+                        fill
+                        className="object-cover"
                       />
-                    </motion.div>
-                  </div>
-                </motion.div>
-              );
-            })}
+                      <span className="absolute top-3 left-3 bg-white text-[#001E6C] text-xs font-bold px-3 py-1 rounded-full shadow">
+                        {nombreCategoria.toUpperCase()}
+                      </span>
+                    </div>
+
+                    <div className="p-4 space-y-2">
+                      <div className="flex justify-between items-start">
+                        <h3 className="text-[#001E6C] font-bold text-base">
+                          ${precio.toLocaleString()}
+                        </h3>
+                        {tipo && (
+                          <span className="bg-[#1c39bb] text-white text-xs font-bold px-2 py-1 rounded-md">
+                            {tipo}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm font-semibold text-gray-800 line-clamp-2">
+                        {Direccion}
+                      </p>
+
+                      <div className="flex flex-wrap gap-x-4 text-xs font-semibold text-gray-600 mt-2">
+                        {dormitorios > 0 && (
+                          <div className="flex items-center gap-1">
+                            <BedDouble className="w-4 h-4" /> {dormitorios} dorm.
+                          </div>
+                        )}
+                        {banos > 0 && (
+                          <div className="flex items-center gap-1">
+                            <Bath className="w-4 h-4" /> {banos} baños
+                          </div>
+                        )}
+                        {terreno > 0 && (
+                          <div className="flex items-center gap-1">
+                            <Ruler className="w-4 h-4" /> {terreno} m²
+                          </div>
+                        )}
+                        {estacionamientos > 0 && (
+                          <div className="flex items-center gap-1">
+                            <CarFront className="w-4 h-4" /> {estacionamientos} estac.
+                          </div>
+                        )}
+                      </div>
+
+                      <motion.div
+                        whileHover="hover"
+                        initial="rest"
+                        animate="rest"
+                        className="relative w-fit mt-2"
+                      >
+                        <Link
+                          href={`/inmueble/${slug}`}
+                          className="text-sm text-[#1c39bb] font-semibold tracking-wide px-1 py-1"
+                        >
+                          Ver detalles →
+                        </Link>
+                        <motion.span
+                          variants={{ rest: { width: 0 }, hover: { width: '100%' } }}
+                          transition={{ duration: 0.3 }}
+                          className="absolute left-0 bottom-0 h-[2px] bg-[#1c39bb]"
+                        />
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                );
+              })
+            )}
           </div>
 
-          {/* Paginación con flechas corregida */}
-          <div className="flex justify-center items-center gap-2 pt-10">
-            {page <= 1 ? (
-              <button
-                disabled
-                className="px-3 py-2 rounded-full text-sm font-semibold bg-gray-200 text-gray-400 cursor-not-allowed"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-            ) : (
-              <Link
-                href={`/anticretico/page/${page - 1}`}
-                className="px-3 py-2 rounded-full text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </Link>
-            )}
+          {/* Paginación (solo si hay resultados) */}
+          {totalItems > 0 && (
+            <div className="flex justify-center items-center gap-2 pt-10">
+              {page <= 1 ? (
+                <button
+                  disabled
+                  className="px-3 py-2 rounded-full text-sm font-semibold bg-gray-200 text-gray-400 cursor-not-allowed"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+              ) : (
+                <Link
+                  href={`/anticretico/page/${page - 1}`}
+                  className="px-3 py-2 rounded-full text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </Link>
+              )}
 
-            {Array.from({ length: totalPages }, (_, i) => (
-              <Link
-                key={i + 1}
-                href={`/anticretico/page/${i + 1}`}
-                className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-semibold ${
-                  i + 1 === page
-                    ? 'bg-[#1c39bb] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                {i + 1}
-              </Link>
-            ))}
+              {Array.from({ length: totalPages }, (_, i) => (
+                <Link
+                  key={i + 1}
+                  href={`/anticretico/page/${i + 1}`}
+                  className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-semibold ${
+                    i + 1 === page
+                      ? 'bg-[#1c39bb] text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {i + 1}
+                </Link>
+              ))}
 
-            {page >= totalPages ? (
-              <button
-                disabled
-                className="px-3 py-2 rounded-full text-sm font-semibold bg-gray-200 text-gray-400 cursor-not-allowed"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            ) : (
-              <Link
-                href={`/anticretico/page/${page + 1}`}
-                className="px-3 py-2 rounded-full text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </Link>
-            )}
-          </div>
+              {page >= totalPages ? (
+                <button
+                  disabled
+                  className="px-3 py-2 rounded-full text-sm font-semibold bg-gray-200 text-gray-400 cursor-not-allowed"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              ) : (
+                <Link
+                  href={`/anticretico/page/${page + 1}`}
+                  className="px-3 py-2 rounded-full text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </Link>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Asesoramiento */}

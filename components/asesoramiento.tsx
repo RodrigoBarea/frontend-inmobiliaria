@@ -4,6 +4,10 @@ import Image from "next/image";
 import { SiWhatsapp } from "react-icons/si";
 
 const Asesoramiento = () => {
+  // Mensaje con emojis (codificado para URL)
+  const rawMsg = "Hola, necesito asesoramiento inmobiliario.";
+  const waUrl = `https://wa.me/59177873534?text=${encodeURIComponent(rawMsg)}`;
+
   return (
     <section className="w-full bg-white">
       <div className="flex flex-col lg:flex-row items-stretch w-full h-full">
@@ -36,7 +40,7 @@ const Asesoramiento = () => {
             Nuestro equipo está listo para ayudarte a encontrar tu propiedad ideal, resolver tus dudas y acompañarte en cada paso del proceso.
           </p>
           <a
-            href="https://wa.me/5490000000000"
+            href={waUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#001E6C] hover:bg-[#001244] text-white font-semibold px-4 py-2 rounded-full shadow-md transition-all text-sm max-w-max mx-auto lg:mx-0"
@@ -51,5 +55,3 @@ const Asesoramiento = () => {
 };
 
 export default Asesoramiento;
-
-

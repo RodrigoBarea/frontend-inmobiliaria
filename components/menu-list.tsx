@@ -2,27 +2,27 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Phone } from "lucide-react";
-import { FaWhatsapp } from 'react-icons/fa';
+import { FaWhatsapp } from "react-icons/fa";
 import {
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
 } from "@/components/ui/navigation-menu";
-import { useRouter } from "next/navigation";
 
 const MenuList = () => {
-  const router = useRouter();
-
   const navItems = [
     { href: "/compra/page/1", label: "Compra" },
     { href: "/alquiler/page/1", label: "Alquila" },
     { href: "/anticretico/page/1", label: "En Anticrético" },
     { href: "/vender", label: "Vende" },
-      { href: "/alquileres", label: "Gestión de Alquileres" },
+    { href: "/alquileres", label: "Gestión de Alquileres" },
     { href: "/sobre-nosotros", label: "Nosotros" },
     { href: "/blog/page/1", label: "Blog" },
   ];
+
+  // Mensaje con emojis (se codifica para URL)
+  const rawMsg = "Hola, necesito asesoramiento inmobiliario.";
+  const waUrl = `https://wa.me/59177873534?text=${encodeURIComponent(rawMsg)}`;
 
   return (
     <NavigationMenu>
@@ -38,10 +38,7 @@ const MenuList = () => {
               >
                 {label}
                 <motion.span
-                  variants={{
-                    rest: { width: 0 },
-                    hover: { width: "100%" },
-                  }}
+                  variants={{ rest: { width: 0 }, hover: { width: "100%" } }}
                   transition={{ duration: 0.3 }}
                   className="absolute left-0 bottom-0 h-[2px] bg-[#1c39bb]"
                 />
@@ -50,30 +47,29 @@ const MenuList = () => {
           </NavigationMenuItem>
         ))}
 
-        {/* Teléfono como último ítem */}
+        {/* CTA WhatsApp con mensaje codificado */}
         <NavigationMenuItem>
-          <motion.div
+          <motion.a
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover="hover"
             initial="rest"
             animate="rest"
-            onClick={() => router.push("/contacto")}
             className="flex items-center gap-2 cursor-pointer relative"
           >
-            < FaWhatsapp strokeWidth="2" style={{ color: "#1c39bb" }} />
+            <FaWhatsapp style={{ color: "#1c39bb", fontSize: "1.2rem" }} />
             <div className="relative">
               <span className="text-sm font-semibold text-[#1c39bb] tracking-wide">
-                +591 711 22 333
+                +591 77873534
               </span>
               <motion.span
-                variants={{
-                  rest: { width: 0 },
-                  hover: { width: "100%" },
-                }}
+                variants={{ rest: { width: 0 }, hover: { width: "100%" } }}
                 transition={{ duration: 0.3 }}
                 className="absolute left-0 bottom-0 h-[2px] bg-[#1c39bb]"
               />
             </div>
-          </motion.div>
+          </motion.a>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
