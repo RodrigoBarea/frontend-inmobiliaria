@@ -89,8 +89,15 @@ export default function InmueblePage({ params }: { params: { slug: string } }) {
 
   // Ahora generamos las imágenes para Lightbox
   const lightboxSlides = imageList.map((url) => ({ src: url }));
+
+  // Verificar si la foto del agente está disponible
   const agenteInfo = agente?.data?.attributes;
   const fotoAgente = agenteInfo?.fotoPrincipal?.data?.attributes?.url;
+  const fotoAgenteUrl = fotoAgente
+    ? fotoAgente.startsWith('https://res.cloudinary.com')
+      ? fotoAgente
+      : `${process.env.NEXT_PUBLIC_BACKEND_URL}${fotoAgente}`
+    : null;
 
   // Ficha técnica (aplicamos Title Case a la categoría)
   const fichaTecnica: Array<{ label: string; value?: string | number | null }> = [
@@ -232,9 +239,9 @@ export default function InmueblePage({ params }: { params: { slug: string } }) {
 
           {agenteInfo && (
             <div className="bg-white shadow-md border rounded-lg p-4 w-full lg:w-80 flex flex-col items-center text-center animate-fade-in">
-              {fotoAgente && (
+              {fotoAgenteUrl && (
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${fotoAgente}`}
+                  src={fotoAgenteUrl}
                   alt="Agente"
                   width={80}
                   height={80}
