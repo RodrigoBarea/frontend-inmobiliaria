@@ -28,7 +28,7 @@ interface Inmueble {
             large?: { url: string };
           };
         };
-      }[];
+      }[]; 
     };
     categoria?: {
       data?: {
@@ -105,10 +105,16 @@ const InmueblesDestacados = () => {
               tipo // Obtenemos el tipo del inmueble
             } = inmueble.attributes;
 
+            // Modificación para obtener la URL completa de la imagen desde Cloudinary
             const imagenUrl =
               imagenes?.data?.[0]?.attributes?.formats?.large?.url ||
               imagenes?.data?.[0]?.attributes?.url ||
               "";
+
+            const fullImageUrl =
+              imagenUrl.startsWith("https://res.cloudinary.com")
+                ? imagenUrl
+                : `${baseUrl}${imagenUrl}`;
 
             const nombreCategoria =
               categoria?.data?.attributes?.nombreCategoria || "EN VENTA";
@@ -122,7 +128,7 @@ const InmueblesDestacados = () => {
                 {/* Imagen */}
                 <div className="relative h-[220px] w-full">
                   <Image
-                    src={`${baseUrl}${imagenUrl}`}
+                    src={fullImageUrl} // Usamos la URL completa desde Cloudinary
                     alt={inmuebleName}
                     fill
                     className="object-cover"
