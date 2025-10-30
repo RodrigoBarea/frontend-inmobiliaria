@@ -73,12 +73,12 @@ export default function InmueblePage({ params }: { params: { slug: string } }) {
     frente,
   } = inmueble.attributes;
 
+  // Corregir la URL de las imágenes de Cloudinary
   const imageList: string[] = imagenes.data.map(
-    (img: any) =>
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}${
-        img.attributes.formats?.large?.url || img.attributes.url
-      }`
+    (img: any) => `${process.env.NEXT_PUBLIC_BACKEND_URL}${img.attributes.formats?.large?.url || img.attributes.url}`
   );
+
+  // Ahora generamos las imágenes para Lightbox
   const lightboxSlides = imageList.map((url) => ({ src: url }));
   const agenteInfo = agente?.data?.attributes;
   const fotoAgente = agenteInfo?.fotoPrincipal?.data?.attributes?.url;
@@ -115,7 +115,7 @@ export default function InmueblePage({ params }: { params: { slug: string } }) {
           onClick={() => setLightboxOpen(true)}
         >
           <Image
-            src={imageList[0]}
+            src={imageList[0]} // Usamos la URL de Cloudinary directamente
             alt={inmuebleName}
             fill
             className="object-cover transition-transform duration-300 hover:scale-105"
@@ -134,7 +134,7 @@ export default function InmueblePage({ params }: { params: { slug: string } }) {
                 onClick={() => setLightboxOpen(true)}
               >
                 <Image
-                  src={url}
+                  src={url} // Usamos la URL de Cloudinary directamente
                   alt={`img-${i}`}
                   fill
                   className="object-cover transition-transform duration-300 hover:scale-105"

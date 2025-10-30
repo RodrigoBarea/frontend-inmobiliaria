@@ -39,7 +39,7 @@ interface Inmueble {
             large?: { url: string };
           };
         };
-      }[];
+      }[]; 
     };
     categoria?: {
       data?: {
@@ -263,6 +263,9 @@ const CompraPage = () => {
                     const imagenUrl = imagenes?.data?.[0]?.attributes?.formats?.large?.url || 
                                      imagenes?.data?.[0]?.attributes?.url || '';
 
+                    const fullImageUrl =
+                      imagenUrl.startsWith('https://res.cloudinary.com') ? imagenUrl : `${baseUrl}${imagenUrl}`;
+
                     return (
                       <motion.div
                         key={id}
@@ -272,7 +275,7 @@ const CompraPage = () => {
                       >
                         <div className="relative h-[220px] w-full">
                           <Image
-                            src={`${baseUrl}${imagenUrl}`}
+                            src={fullImageUrl} // Usamos la URL completa de Cloudinary o la URL generada
                             alt={inmuebleName}
                             fill
                             className="object-cover"

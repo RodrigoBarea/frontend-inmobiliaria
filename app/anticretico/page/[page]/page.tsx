@@ -35,7 +35,7 @@ interface Inmueble {
             large?: { url: string };
           };
         };
-      }[];
+      }[]; 
     };
     categoria?: {
       data?: {
@@ -134,6 +134,9 @@ const AnticreticoPage = () => {
                   imagenes?.data?.[0]?.attributes?.url ||
                   '';
 
+                const fullImageUrl =
+                  imagenUrl.startsWith('https://res.cloudinary.com') ? imagenUrl : `${baseUrl}${imagenUrl}`;
+
                 const nombreCategoria =
                   categoria?.data?.attributes?.nombreCategoria || 'ANTICRETICO';
 
@@ -146,7 +149,7 @@ const AnticreticoPage = () => {
                   >
                     <div className="relative h-[220px] w-full">
                       <Image
-                        src={`${baseUrl}${imagenUrl}`}
+                        src={fullImageUrl} // Usamos la URL completa de Cloudinary o la URL generada
                         alt={inmuebleName}
                         fill
                         className="object-cover"
@@ -242,7 +245,7 @@ const AnticreticoPage = () => {
                 <Link
                   key={i + 1}
                   href={`/anticretico/page/${i + 1}`}
-                  className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-semibold ${
+                  className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-semibold $(
                     i + 1 === page
                       ? 'bg-[#1c39bb] text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
