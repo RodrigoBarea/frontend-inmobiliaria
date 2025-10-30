@@ -75,7 +75,16 @@ export default function InmueblePage({ params }: { params: { slug: string } }) {
 
   // Corregir la URL de las imágenes de Cloudinary
   const imageList: string[] = imagenes.data.map(
-    (img: any) => `${process.env.NEXT_PUBLIC_BACKEND_URL}${img.attributes.formats?.large?.url || img.attributes.url}`
+    (img: any) => {
+      const imagenUrl =
+        img.attributes.formats?.large?.url ||
+        img.attributes.url ||
+        '';
+
+      return imagenUrl.startsWith('https://res.cloudinary.com')
+        ? imagenUrl
+        : `${process.env.NEXT_PUBLIC_BACKEND_URL}${imagenUrl}`;
+    }
   );
 
   // Ahora generamos las imágenes para Lightbox
