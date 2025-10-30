@@ -288,6 +288,11 @@ export default function PaginaResultados() {
               '';
             const catLabel = attributes.categoria?.data?.attributes.nombreCategoria || '';
 
+            // Corregir la URL de la imagen
+            const fullImgUrl = imgUrl.startsWith('https://') || imgUrl.startsWith('http://')
+              ? imgUrl
+              : `${baseUrl}${imgUrl}`;
+
             return (
               <motion.div
                 key={id}
@@ -296,7 +301,7 @@ export default function PaginaResultados() {
               >
                 <div className="relative h-40 w-full">
                   <Image
-                    src={`${baseUrl}${imgUrl}`}
+                    src={fullImgUrl} // Usamos la URL completa para las imágenes
                     alt={attributes.inmuebleName}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"

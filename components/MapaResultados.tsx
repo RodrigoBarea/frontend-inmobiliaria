@@ -95,7 +95,9 @@ export default function MapaResultados({ inmuebles, ciudadSeleccionada, darkMode
 
         const imgUrl = imagenes?.data?.[0]?.attributes.formats?.large?.url || 
                        imagenes?.data?.[0]?.attributes.url || '';
-        const fullImgUrl = imgUrl ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${imgUrl}` : '';
+        const fullImgUrl = imgUrl.startsWith('https://') || imgUrl.startsWith('http://')
+          ? imgUrl
+          : `${process.env.NEXT_PUBLIC_BACKEND_URL}${imgUrl}`;
 
         const popup = new mapboxgl.Popup({ offset: 25, closeButton: false, closeOnClick: false }).setHTML(`
           <div class="popup-container">
