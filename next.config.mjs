@@ -9,7 +9,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "backend-inmobiliaria-hcml.onrender.com",
+        hostname: "backend-inmobiliaria-el-porvenir.onrender.com",
       },
     ],
   },
