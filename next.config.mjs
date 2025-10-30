@@ -11,6 +11,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "backend-inmobiliaria-el-porvenir.onrender.com",
       },
+      {
+        protocol: "https", // Agregar soporte para imágenes de Cloudinary
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
 };
