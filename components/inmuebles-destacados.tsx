@@ -69,6 +69,9 @@ const InmueblesDestacados = () => {
     fetchData();
   }, [baseUrl]);
 
+  // Detección de dispositivos móviles
+  const isMobile = window.innerWidth <= 768;
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 50 }}
@@ -76,6 +79,10 @@ const InmueblesDestacados = () => {
       transition={{ duration: 0.6, ease: "easeOut" }}
       viewport={{ once: true, amount: 0.3 }}
       className="relative z-10 -mt-14 bg-white rounded-t-3xl shadow-xl py-20"
+      style={{
+        // Desactivar animación en móviles
+        animation: isMobile ? "none" : "", 
+      }}
     >
       <div className="max-w-7xl mx-auto px-6 space-y-12">
         {/* Encabezado */}
